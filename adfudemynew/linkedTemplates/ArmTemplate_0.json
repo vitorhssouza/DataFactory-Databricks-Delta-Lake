@@ -1,0 +1,1019 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nome do Data Factory",
+			"defaultValue": "adfudemynew"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'AzureBlobStorage1'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dir_blob')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "fontes"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/file_vendas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "vendas.csv",
+						"container": "fontes"
+					},
+					"columnDelimiter": ",",
+					"encodingName": "WINDOWS-1252",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_venda",
+						"type": "String"
+					},
+					{
+						"name": "cod_cliente",
+						"type": "String"
+					},
+					{
+						"name": "nom_cliente",
+						"type": "String"
+					},
+					{
+						"name": "cod_vendedor",
+						"type": "String"
+					},
+					{
+						"name": "nom_vendedor",
+						"type": "String"
+					},
+					{
+						"name": "cod_cidade",
+						"type": "String"
+					},
+					{
+						"name": "nom_cidade",
+						"type": "String"
+					},
+					{
+						"name": "cod_produto",
+						"type": "String"
+					},
+					{
+						"name": "Nom_produto",
+						"type": "String"
+					},
+					{
+						"name": "cod_marca",
+						"type": "String"
+					},
+					{
+						"name": "Nom_marca",
+						"type": "String"
+					},
+					{
+						"name": "cod_departamento",
+						"type": "String"
+					},
+					{
+						"name": "nom_departamento",
+						"type": "String"
+					},
+					{
+						"name": "cod_gerencia",
+						"type": "String"
+					},
+					{
+						"name": "nom_gerencia",
+						"type": "String"
+					},
+					{
+						"name": "Ano_venda",
+						"type": "String"
+					},
+					{
+						"name": "Mês_venda",
+						"type": "String"
+					},
+					{
+						"name": "Dia_venda",
+						"type": "String"
+					},
+					{
+						"name": "dtc_venda",
+						"type": "String"
+					},
+					{
+						"name": "qtd_venda",
+						"type": "String"
+					},
+					{
+						"name": "val_venda",
+						"type": "String"
+					},
+					{
+						"name": "num_nota",
+						"type": "String"
+					},
+					{
+						"name": "Latitude",
+						"type": "String"
+					},
+					{
+						"name": "Longitude",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/file_vendas_mod')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "vendas_mod.csv",
+						"container": "fontes"
+					},
+					"columnDelimiter": ",",
+					"encodingName": "WINDOWS-1252",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_venda",
+						"type": "String"
+					},
+					{
+						"name": "cod_cliente",
+						"type": "String"
+					},
+					{
+						"name": "nom_cliente",
+						"type": "String"
+					},
+					{
+						"name": "cod_vendedor",
+						"type": "String"
+					},
+					{
+						"name": "nom_vendedor",
+						"type": "String"
+					},
+					{
+						"name": "cod_cidade",
+						"type": "String"
+					},
+					{
+						"name": "nom_cidade",
+						"type": "String"
+					},
+					{
+						"name": "cod_produto",
+						"type": "String"
+					},
+					{
+						"name": "Nom_produto",
+						"type": "String"
+					},
+					{
+						"name": "cod_marca",
+						"type": "String"
+					},
+					{
+						"name": "Nom_marca",
+						"type": "String"
+					},
+					{
+						"name": "cod_departamento",
+						"type": "String"
+					},
+					{
+						"name": "nom_departamento",
+						"type": "String"
+					},
+					{
+						"name": "cod_gerencia",
+						"type": "String"
+					},
+					{
+						"name": "nom_gerencia",
+						"type": "String"
+					},
+					{
+						"name": "Ano_venda",
+						"type": "String"
+					},
+					{
+						"name": "M�s_venda",
+						"type": "String"
+					},
+					{
+						"name": "Dia_venda",
+						"type": "String"
+					},
+					{
+						"name": "dtc_venda",
+						"type": "String"
+					},
+					{
+						"name": "qtd_venda",
+						"type": "String"
+					},
+					{
+						"name": "val_venda",
+						"type": "String"
+					},
+					{
+						"name": "num_nota",
+						"type": "String"
+					},
+					{
+						"name": "Latitude",
+						"type": "String"
+					},
+					{
+						"name": "Longitude",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/val_vendas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "val_vendas.csv",
+						"container": "fontes"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_venda",
+						"type": "String"
+					},
+					{
+						"name": "cod_cliente",
+						"type": "String"
+					},
+					{
+						"name": "nom_cliente",
+						"type": "String"
+					},
+					{
+						"name": "cod_vendedor",
+						"type": "String"
+					},
+					{
+						"name": "nom_vendedor",
+						"type": "String"
+					},
+					{
+						"name": "cod_cidade",
+						"type": "String"
+					},
+					{
+						"name": "nom_cidade",
+						"type": "String"
+					},
+					{
+						"name": "cod_produto",
+						"type": "String"
+					},
+					{
+						"name": "Nom_produto",
+						"type": "String"
+					},
+					{
+						"name": "cod_marca",
+						"type": "String"
+					},
+					{
+						"name": "Nom_marca",
+						"type": "String"
+					},
+					{
+						"name": "cod_departamento",
+						"type": "String"
+					},
+					{
+						"name": "nom_departamento",
+						"type": "String"
+					},
+					{
+						"name": "cod_gerencia",
+						"type": "String"
+					},
+					{
+						"name": "nom_gerencia",
+						"type": "String"
+					},
+					{
+						"name": "Ano_venda",
+						"type": "String"
+					},
+					{
+						"name": "M�s_venda",
+						"type": "String"
+					},
+					{
+						"name": "Dia_venda",
+						"type": "String"
+					},
+					{
+						"name": "dtc_venda",
+						"type": "String"
+					},
+					{
+						"name": "qtd_venda",
+						"type": "String"
+					},
+					{
+						"name": "val_venda",
+						"type": "String"
+					},
+					{
+						"name": "num_nota",
+						"type": "String"
+					},
+					{
+						"name": "Latitude",
+						"type": "String"
+					},
+					{
+						"name": "Longitude",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Ano_venda",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Ano_venda",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Mês_venda",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Mês_venda",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Dia_venda",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Dia_venda",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "dtc_venda",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "dtc_venda",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "qtd_venda",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "qtd_venda",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "val_venda",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "val_venda",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "file_vendas",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "val_vendas",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-02-03T19:49:27Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/file_vendas')]",
+				"[concat(variables('factoryId'), '/datasets/val_vendas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_agg_vendas')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "file_vendas",
+								"type": "DatasetReference"
+							},
+							"name": "vendas"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dir_blob",
+								"type": "DatasetReference"
+							},
+							"name": "filevendasagg"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "agganovenda"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id_venda as string,",
+						"          cod_cliente as string,",
+						"          nom_cliente as string,",
+						"          cod_vendedor as string,",
+						"          nom_vendedor as string,",
+						"          cod_cidade as string,",
+						"          nom_cidade as string,",
+						"          cod_produto as string,",
+						"          Nom_produto as string,",
+						"          cod_marca as string,",
+						"          Nom_marca as string,",
+						"          cod_departamento as string,",
+						"          nom_departamento as string,",
+						"          cod_gerencia as string,",
+						"          nom_gerencia as string,",
+						"          Ano_venda as string,",
+						"          {Mês_venda} as string,",
+						"          Dia_venda as string,",
+						"          dtc_venda as string,",
+						"          qtd_venda as string,",
+						"          val_venda as string,",
+						"          num_nota as string,",
+						"          Latitude as string,",
+						"          Longitude as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> vendas",
+						"vendas select(mapColumn(",
+						"          Ano_venda,",
+						"          Val_venda = val_venda",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 aggregate(groupBy(Ano_venda),",
+						"     Val_venda_ano = sum(toDouble(Val_venda))) ~> agganovenda",
+						"agganovenda sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Column_1 as string,",
+						"          Column_2 as string,",
+						"          Column_3 as string",
+						"     ),",
+						"     partitionFileNames:['vendaaggano'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> filevendasagg"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/file_vendas')]",
+				"[concat(variables('factoryId'), '/datasets/dir_blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_transf_client')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "file_vendas",
+								"type": "DatasetReference"
+							},
+							"name": "vendas"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "file_vendas_mod",
+								"type": "DatasetReference"
+							},
+							"name": "fileclient"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "convert"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id_venda as string,",
+						"          cod_cliente as string,",
+						"          nom_cliente as string,",
+						"          cod_vendedor as string,",
+						"          nom_vendedor as string,",
+						"          cod_cidade as string,",
+						"          nom_cidade as string,",
+						"          cod_produto as string,",
+						"          Nom_produto as string,",
+						"          cod_marca as string,",
+						"          Nom_marca as string,",
+						"          cod_departamento as string,",
+						"          nom_departamento as string,",
+						"          cod_gerencia as string,",
+						"          nom_gerencia as string,",
+						"          Ano_venda as string,",
+						"          {Mês_venda} as string,",
+						"          Dia_venda as string,",
+						"          dtc_venda as string,",
+						"          qtd_venda as string,",
+						"          val_venda as string,",
+						"          num_nota as string,",
+						"          Latitude as string,",
+						"          Longitude as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> vendas",
+						"vendas select(mapColumn(",
+						"          idcliente = cod_cliente,",
+						"          nomecliente = nom_cliente",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 derive(nomeclienteMaiusculo = upper(nomecliente)) ~> derivedColumn1",
+						"derivedColumn1 cast(output(",
+						"          idcliente as integer",
+						"     ),",
+						"     errors: true) ~> convert",
+						"convert sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_venda as string,",
+						"          cod_cliente as string,",
+						"          nom_cliente as string,",
+						"          cod_vendedor as string,",
+						"          nom_vendedor as string,",
+						"          cod_cidade as string,",
+						"          nom_cidade as string,",
+						"          cod_produto as string,",
+						"          Nom_produto as string,",
+						"          cod_marca as string,",
+						"          Nom_marca as string,",
+						"          cod_departamento as string,",
+						"          nom_departamento as string,",
+						"          cod_gerencia as string,",
+						"          nom_gerencia as string,",
+						"          Ano_venda as string,",
+						"          {M�s_venda} as string,",
+						"          Dia_venda as string,",
+						"          dtc_venda as string,",
+						"          qtd_venda as string,",
+						"          val_venda as string,",
+						"          num_nota as string,",
+						"          Latitude as string,",
+						"          Longitude as string",
+						"     ),",
+						"     partitionFileNames:['/fileclient.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> fileclient"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/file_vendas')]",
+				"[concat(variables('factoryId'), '/datasets/file_vendas_mod')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_exemplo2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "df_agg_vendas",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_agg_vendas",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"vendas": {},
+									"filevendasagg": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-02-03T20:08:57Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_agg_vendas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline_bd')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_data_nota_fiscal",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "df_transf_client",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id_venda",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "id_venda",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "nom_cliente",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "nom_cliente",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "nom_vendedor",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "nom_vendedor",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "nom_cidade",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "nom_cidade",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "file_vendas",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "file_vendas_mod",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "df_transf_client",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_transf_client",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"vendas": {},
+									"fileclient": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-02-03T19:51:57Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/file_vendas')]",
+				"[concat(variables('factoryId'), '/datasets/file_vendas_mod')]",
+				"[concat(variables('factoryId'), '/dataflows/df_transf_client')]"
+			]
+		}
+	]
+}
